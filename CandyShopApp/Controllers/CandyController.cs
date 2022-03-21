@@ -28,5 +28,15 @@ namespace CandyShopApp.Controllers
             candy.CurrentCategory = "Bestsellers";
             return View(candy);
         }
+
+        public IActionResult Details(int id)
+        {
+            var candy = _candyRepository.GetCandyById(id);
+            if (candy is null)
+            {
+                return NotFound();
+            }
+            return View(candy);
+        }
     }
 }
