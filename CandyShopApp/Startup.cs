@@ -1,6 +1,7 @@
 using CandyShopApp.Data;
 using CandyShopApp.Models.CandyOp;
 using CandyShopApp.Models.CategoryOp;
+using CandyShopApp.Models.ShoppingCartOp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,10 @@ namespace CandyShopApp
             services.AddControllersWithViews();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICandyRepository, CandyRepository>();
-            //services.AddRazorPages();
+            services.AddScoped<ShoppingCart>(sc => ShoppingCart.GetCart(sc));
+
+            services.AddHttpContextAccessor();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +56,7 @@ namespace CandyShopApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 
