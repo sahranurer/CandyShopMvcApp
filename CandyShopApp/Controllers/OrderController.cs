@@ -1,6 +1,7 @@
 ﻿using CandyShopApp.Models;
 using CandyShopApp.Models.OrderOp;
 using CandyShopApp.Models.ShoppingCartOp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace CandyShopApp.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
