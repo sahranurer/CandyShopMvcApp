@@ -1,4 +1,5 @@
-﻿using CandyShopApp.Models.CandyOp;
+﻿using CandyShopApp.Models;
+using CandyShopApp.Models.CandyOp;
 using CandyShopApp.Models.CategoryOp;
 using CandyShopApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,28 @@ namespace CandyShopApp.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult List()
+        public IActionResult List(string category)
         {
-            var candy = new CandyListViewModel();
-            candy.Candies = _candyRepository.GetAllCandy;
-            candy.CurrentCategory = "Bestsellers";
-            return View(candy);
+            IEnumerable<Candy> candies;
+            string currentCategory;
+            if (string.IsNullOrEmpty(category))
+            {
+                candies = _candyRepository.GetAllCandy.OrderBy(c => c.Name);
+                currentCategory = "All Candy";
+            }
+            else
+            {
+                candies = _candyRepository.GetAllCandy.Where(c => c.Category.CategoryName == category);
+
+                currentCategory = _categoryRepository.GetCategories
+                    .FirstOrDefault(c => c.CategoryName == category)?.CategoryName;
+            }
+
+            return View(new CandyListViewModel
+            {
+                Candies = candies,
+                CurrentCategory = currentCategory
+            });
         }
 
         public IActionResult Details(int id)
