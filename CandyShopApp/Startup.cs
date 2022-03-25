@@ -1,6 +1,7 @@
 using CandyShopApp.Data;
 using CandyShopApp.Models.CandyOp;
 using CandyShopApp.Models.CategoryOp;
+using CandyShopApp.Models.OrderOp;
 using CandyShopApp.Models.ShoppingCartOp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,7 @@ namespace CandyShopApp
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICandyRepository, CandyRepository>();
             services.AddScoped<ShoppingCart>(sc => ShoppingCart.GetCart(sc));
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddHttpContextAccessor();
             services.AddSession();
